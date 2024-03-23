@@ -5,7 +5,9 @@ export default async function Home() {
   await redirectIfAuthenticated();
   return (
     <main className="container max-w-lg flex items-center">
-      <LogIn isDevMode={process.env.NODE_ENV === "development"} />
+      {/* work around for running build in dev mode */}
+      {/* <LogIn isDevMode={process.env.NODE_ENV === "development"} /> */}
+      <LogIn isDevMode={true} />
     </main>
   );
 }
