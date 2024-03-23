@@ -336,8 +336,8 @@ export const UpdateChatTitle = async (
     const response = await FindChatThreadForCurrentUser(chatThreadId);
     if (response.status === "OK") {
       const chatThread = response.response;
-      // take the first 30 characters
-      chatThread.name = title.substring(0, 30);
+      // take the first 35 characters
+      chatThread.name = title.substring(0, 35);
       return await UpsertChatThread(chatThread);
     }
     return response;
