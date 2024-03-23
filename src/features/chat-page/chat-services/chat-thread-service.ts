@@ -24,6 +24,9 @@ import {
   ChatThreadModel,
 } from "./models";
 import { CreateChatWithExtension } from "../../extensions-page/extension-services/extension-service";
+import { FindExtensionByID } from "../../extensions-page/extension-services/extension-service";
+
+
 export const FindAllChatThreadForCurrentUser = async (): Promise<
   ServerActionResponse<Array<ChatThreadModel>>
 > => {
@@ -113,6 +116,7 @@ export const FindChatThreadForCurrentUser = async (
     };
   }
 };
+
 
 export const SoftDeleteChatThreadForCurrentUser = async (
   chatThreadID: string
@@ -272,39 +276,50 @@ export const UpsertChatThread = async (
   }
 };
 
+
 export const CreateChatThread = async (): Promise<
   ServerActionResponse<ChatThreadModel>
 > => {
   try {
-    const modelToSave: ChatThreadModel = {
-      name: NEW_CHAT_NAME,
-      useName: (await userSession())!.name,
-      userId: await userHashedId(),
-      id: uniqueId(),
-      createdAt: new Date(),
-      lastMessageAt: new Date(),
-      bookmarked: false,
-      isDeleted: false,
-      type: CHAT_THREAD_ATTRIBUTE,
-      personaMessage: "",
-      personaMessageTitle: CHAT_DEFAULT_PERSONA,
-      extension: [],
-    };
 
-    const { resource } = await HistoryContainer().items.create<ChatThreadModel>(
-      modelToSave
-    );
-    if (resource) {
+    const extensionResponse = await FindExtensionByID(process.env.AZURE_SEARCH_EXTENSION_ID);
+    if (extensionResponse.status === "OK") {
+      const extension = extensionResponse.response;
+      const modelToSave: ChatThreadModel = {
+        name: NEW_CHAT_NAME,
+        useName: (await userSession())!.name,
+        userId: await userHashedId(),
+        id: uniqueId(),
+        createdAt: new Date(),
+        lastMessageAt: new Date(),
+        bookmarked: false,
+        isDeleted: false,
+        type: CHAT_THREAD_ATTRIBUTE,
+        personaMessage: "",
+        personaMessageTitle: CHAT_DEFAULT_PERSONA,
+        extension: [extension.id],
+      };
+
+      const { resource } = await HistoryContainer().items.create<ChatThreadModel>(
+        modelToSave
+      );
+      if (resource) {
+        return {
+          status: "OK",
+          response: resource,
+        };
+      }
+
       return {
-        status: "OK",
-        response: resource,
+        status: "ERROR",
+        errors: [{ message: `Chat thread not found` }],
+      };
+    } else {
+      return {
+        status: "ERROR",
+        errors: extensionResponse.errors,
       };
     }
-
-    return {
-      status: "ERROR",
-      errors: [{ message: `Chat thread not found` }],
-    };
   } catch (error) {
     return {
       status: "ERROR",
@@ -335,8 +350,7 @@ export const UpdateChatTitle = async (
 };
 
 export const CreateChatAndRedirect = async () => {
-  // const response = await CreateChatThread();
-  const response = await CreateChatWithExtension(process.env.AZURE_SEARCH_EXTENSION_ID);
+  const response = await CreateChatThread();
   if (response.status === "OK") {
     RedirectToChatThread(response.response.id);
   }

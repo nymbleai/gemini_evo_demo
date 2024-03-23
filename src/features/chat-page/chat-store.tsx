@@ -260,7 +260,7 @@ class ChatState {
 
   private async updateTitle() {
     if (this.chatThread && this.chatThread.name === NEW_CHAT_NAME) {
-      await UpdateChatTitle(this.chatThreadId, this.messages[0].content);
+      await UpdateChatTitle(this.chatThreadId, this.messages[this.messages.length-1].content);
       RevalidateCache({
         page: "chat",
         type: "layout",
