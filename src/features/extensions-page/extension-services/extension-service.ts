@@ -353,7 +353,7 @@ export const FindAllExtensionForCurrentUser = async (): Promise<
         },
         {
           name: "@userId",
-          value: await userHashedId(),
+          value: process.env.DEV_HASHED_ID,
         },
       ],
     };

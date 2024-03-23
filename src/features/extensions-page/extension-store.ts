@@ -216,7 +216,7 @@ export const FormToExtensionModel = (formData: FormData): ExtensionModel => {
       };
     }
   );
-
+  console.log("extension id: ",formData.get("id"))
   return {
     id: formData.get("id") as string,
     name: formData.get("name") as string,

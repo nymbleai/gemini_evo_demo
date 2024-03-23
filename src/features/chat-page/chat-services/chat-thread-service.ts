@@ -23,7 +23,7 @@ import {
   ChatDocumentModel,
   ChatThreadModel,
 } from "./models";
-
+import { CreateChatWithExtension } from "../../extensions-page/extension-services/extension-service";
 export const FindAllChatThreadForCurrentUser = async (): Promise<
   ServerActionResponse<Array<ChatThreadModel>>
 > => {
@@ -335,7 +335,8 @@ export const UpdateChatTitle = async (
 };
 
 export const CreateChatAndRedirect = async () => {
-  const response = await CreateChatThread();
+  // const response = await CreateChatThread();
+  const response = await CreateChatWithExtension(process.env.AZURE_SEARCH_EXTENSION_ID);
   if (response.status === "OK") {
     RedirectToChatThread(response.response.id);
   }

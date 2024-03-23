@@ -25,12 +25,12 @@ export const ChatHeader: FC<Props> = (props) => {
         <div className="flex flex-col">
           <span>{props.chatThread.name}</span>
           <span className="text-sm text-muted-foreground flex gap-1 items-center">
-            <VenetianMask size={18} />
-            {persona}
+            {/* <VenetianMask size={18} />
+            {persona} */}
           </span>
         </div>
         <div className="flex gap-2">
-          <PersonaDetail chatThread={props.chatThread} />
+          {/* <PersonaDetail chatThread={props.chatThread} /> */}
           <DocumentDetail chatDocuments={props.chatDocuments} />
           <ExtensionDetail
             disabled={props.chatDocuments.length !== 0}
