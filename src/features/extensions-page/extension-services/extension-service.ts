@@ -353,7 +353,7 @@ export const FindAllExtensionForCurrentUser = async (): Promise<
         },
         {
           name: "@userId",
-          value: process.env.DEV_HASHED_ID,
+          value: process.env.DEV_HASHED_ID, //workaround for global extensions
         },
       ],
     };

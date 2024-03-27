@@ -2,12 +2,13 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 const requireAuth: string[] = [
-  "/chat",
-  "/api",
-  "/reporting",
-  "/unauthorized",
-  "/persona",
-  "/prompt"
+  // workaround to skip login
+  // "/chat",
+  // "/api",
+  // "/reporting",
+  // "/unauthorized",
+  // "/persona",
+  // "/prompt"
 ];
 const requireAdmin: string[] = ["/reporting"];
 
