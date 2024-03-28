@@ -33,11 +33,11 @@ export const MainMenu = async () => {
           <MenuTrayToggle />
         </MenuItemContainer>
         <MenuItemContainer>
-          <MenuItem tooltip="Chat">
+          {/* <MenuItem tooltip="Chat">
             <MenuLink href="/chat" ariaLabel="Go to the Chat page">
               <MessageCircle {...menuIconProps} />
             </MenuLink>
-          </MenuItem>
+          </MenuItem> */}
           {/* <MenuItem tooltip="Persona">
             <MenuLink href="/persona" ariaLabel="Go to the Persona configuration page">
               <VenetianMask {...menuIconProps} />
