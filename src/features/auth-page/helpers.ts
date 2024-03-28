@@ -5,12 +5,12 @@ import { options } from "./auth-api";
 
 export const userSession = async (): Promise<UserModel | null> => {
   const session = await getServerSession(options);
-  // wrokaround to skip login
+  // workaround to skip login
   if (true) {
     return {
-      name: "dev",
+      name: "user",
       image: "",
-      email: "dev@localhost.com",
+      email: "user@localhost",
       isAdmin: false,
     };
   }

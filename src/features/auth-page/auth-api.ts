@@ -60,7 +60,7 @@ const configureIdentityProvider = () => {
 
 
   // if (process.env.NODE_ENV === "development") {
-  // work around for running build in dev mode
+  // workaround for running build in dev mode
   if (true) { 
     providers.push(
       CredentialsProvider({

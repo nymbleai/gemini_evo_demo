@@ -63,6 +63,9 @@ export const ChatPage: FC<ChatPageProps> = (props) => {
                   message.role === "assistant"
                     ? "/ai-icon.png"
                     : session?.user?.image
+
+                    
+                  
                 }
               >
                 <MessageContent message={message} />
