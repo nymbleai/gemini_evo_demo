@@ -354,4 +354,8 @@ export const CreateChatAndRedirect = async () => {
   if (response.status === "OK") {
     RedirectToChatThread(response.response.id);
   }
+  else{
+    console.log("extension id not found")
+  }
+
 };
