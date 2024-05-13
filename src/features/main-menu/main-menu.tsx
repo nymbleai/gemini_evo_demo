@@ -17,6 +17,9 @@ import {
 import { getCurrentUser } from "../auth-page/helpers";
 import { MenuLink } from "./menu-link";
 import { UserProfile } from "./user-profile";
+import { CreateChatAndRedirect } from "../chat-page/chat-services/chat-thread-service";
+import { ChatContextMenu } from "../chat-page/chat-menu/chat-context-menu";
+import { NewChat } from "../chat-page/chat-menu/new-chat";
 
 export const MainMenu = async () => {
   const user = await getCurrentUser();
@@ -30,14 +33,18 @@ export const MainMenu = async () => {
               <Home {...menuIconProps} />
             </MenuLink>
           </MenuItem>
-          <MenuTrayToggle />
+          {/* <MenuTrayToggle /> */}
         </MenuItemContainer>
         <MenuItemContainer>
-          {/* <MenuItem tooltip="Chat">
-            <MenuLink href="/chat" ariaLabel="Go to the Chat page">
-              <MessageCircle {...menuIconProps} />
-            </MenuLink>
-          </MenuItem> */}
+          <MenuItem tooltip="New Chat">
+            {/* <div className="flex p-2 px-3 justify-end"> */}
+              <form action={CreateChatAndRedirect} >
+                <NewChat />
+              </form>
+            {/* </div> */}
+            
+
+          </MenuItem>
           {/* <MenuItem tooltip="Persona">
             <MenuLink href="/persona" ariaLabel="Go to the Persona configuration page">
               <VenetianMask {...menuIconProps} />

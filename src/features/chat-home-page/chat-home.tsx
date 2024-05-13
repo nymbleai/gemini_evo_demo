@@ -37,7 +37,7 @@ export const ChatHome: FC<ChatPersonaProps> = (props) => {
           <div>
             {/* <h2 className="text-2xl font-bold mb-3">Extensions</h2> */}
 
-            {/* {props.extensions && props.extensions.length > 0 ? (
+            {props.extensions && props.extensions.length > 0 ? (
               <div className="grid grid-cols-3 gap-3">
                 {props.extensions.map((extension) => {
                   return (
@@ -51,7 +51,7 @@ export const ChatHome: FC<ChatPersonaProps> = (props) => {
               </div>
             ) :
               <p className="text-muted-foreground max-w-xl">No extentions created</p>
-            } */}
+            }
 
           </div>
           <div>
