@@ -16,8 +16,11 @@ import { mapOpenAIChatMessages } from "../utils";
 import { GetDefaultExtensions } from "./chat-api-default-extensions";
 import { GetDynamicExtensions } from "./chat-api-dynamic-extensions";
 import { ChatApiExtensions } from "./chat-api-extension";
+import { ChatApiAssistant } from "./chat-api-assistant";
 import { ChatApiMultimodal } from "./chat-api-multimodal";
 import { OpenAIStream } from "./open-ai-stream";
+import { OpenAIStreamAssistant } from "./open-ai-assistant-stream";
+import { AssistantStream } from "openai/lib/AssistantStream.mjs";
 type ChatTypes = "extensions" | "chat-with-file" | "multimodal";
 
 export const ChatAPIEntry = async (props: UserPrompt, signal: AbortSignal) => {
@@ -46,13 +49,13 @@ export const ChatAPIEntry = async (props: UserPrompt, signal: AbortSignal) => {
 
   let chatType: ChatTypes = "extensions";
 
-  if (props.multimodalImage && props.multimodalImage.length > 0) {
-    chatType = "multimodal";
-  } else if (docs.length > 0) {
-    chatType = "chat-with-file";
-  } else if (extension.length > 0) {
-    chatType = "extensions";
-  }
+  // if (props.multimodalImage && props.multimodalImage.length > 0) {
+  //   chatType = "multimodal";
+  // } else if (docs.length > 0) {
+  //   chatType = "chat-with-file";
+  // } else if (extension.length > 0) {
+  //   chatType = "extensions";
+  // }
 
   // save the user message
   await CreateChatMessage({
@@ -63,37 +66,47 @@ export const ChatAPIEntry = async (props: UserPrompt, signal: AbortSignal) => {
     multiModalImage: props.multimodalImage,
   });
 
-  let runner: ChatCompletionStreamingRunner;
+  let runner: AssistantStream;
 
-  switch (chatType) {
-    case "chat-with-file":
-      runner = await ChatApiRAG({
-        chatThread: currentChatThread,
-        userMessage: props.message,
-        history: history,
-        signal: signal,
-      });
-      break;
-    case "multimodal":
-      runner = ChatApiMultimodal({
-        chatThread: currentChatThread,
-        userMessage: props.message,
-        file: props.multimodalImage,
-        signal: signal,
-      });
-      break;
-    case "extensions":
-      runner = await ChatApiExtensions({
-        chatThread: currentChatThread,
-        userMessage: props.message,
-        history: history,
-        extensions: extension,
-        signal: signal,
-      });
-      break;
-  }
+  // switch (chatType) {
+  //   case "chat-with-file":
+  //     runner = await ChatApiRAG({
+  //       chatThread: currentChatThread,
+  //       userMessage: props.message,
+  //       history: history,
+  //       signal: signal,
+  //     });
+  //     break;
+  //   case "multimodal":
+  //     runner = ChatApiMultimodal({
+  //       chatThread: currentChatThread,
+  //       userMessage: props.message,
+  //       file: props.multimodalImage,
+  //       signal: signal,
+  //     });
+  //     break;
+  //   case "extensions":
+  //     runner = await ChatApiExtensions({
+  //       chatThread: currentChatThread,
+  //       userMessage: props.message,
+  //       history: history,
+  //       extensions: extension,
+  //       signal: signal,
+  //     });
+  //     break;
+  // }
 
-  const readableStream = OpenAIStream({
+  runner = await ChatApiAssistant({
+    chatThread: currentChatThread,
+    userMessage: props.message,
+    history: history,
+    extensions: extension,
+    signal: signal,
+  });
+
+
+
+  const readableStream = OpenAIStreamAssistant({
     runner: runner,
     chatThread: currentChatThread,
   });
