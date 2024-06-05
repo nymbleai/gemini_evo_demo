@@ -298,6 +298,7 @@ export const CreateChatThread = async (): Promise<
         personaMessage: "",
         personaMessageTitle: CHAT_DEFAULT_PERSONA,
         extension: [extension.id],
+        assistant_thread_id:""
       };
 
       const { resource } = await HistoryContainer().items.create<ChatThreadModel>(

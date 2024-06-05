@@ -304,6 +304,7 @@ export const CreatePersonaChat = async (
       personaMessage: persona.personaMessage,
       personaMessageTitle: persona.name,
       extension: [],
+      assistant_thread_id:""
     });
 
     return response;
